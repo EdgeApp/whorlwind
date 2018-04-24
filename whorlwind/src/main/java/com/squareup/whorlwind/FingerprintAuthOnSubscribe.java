@@ -147,6 +147,9 @@ import rx.subscriptions.Subscriptions;
                     new ReadResult(ReadState.READY, -1, null, ByteString.of(decrypted)));
                 subscriber.onCompleted();
               } catch (IllegalBlockSizeException | BadPaddingException e) {
+                if (e instanceof IllegalBlockSizeException) {
+                  whorlwind.removeKey();
+                }
                 Log.i(Whorlwind.TAG, "Failed to decrypt.", e);
                 subscriber.onError(e);
               }
